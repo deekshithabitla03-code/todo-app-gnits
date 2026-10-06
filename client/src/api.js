@@ -3,7 +3,12 @@ const API_URL = "/api/todos";
 const request = async (url, options) => {
   const res = await fetch(url, options);
   const text = await res.text();
-  const data = text ? JSON.parse(text) : null;
+  let data = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = null;
+  }
   if (!res.ok) {
     throw new Error(data?.message || `Request failed: ${res.status}`);
   }
